@@ -1,0 +1,7 @@
+{
+  "name": "Confluent Schema Registry",
+  "description": "Deploy an instance of the Confluent Schema Registry",
+  "repository": "https://github.com/kvlou/schema-registry/tree/v1.0.1.heroku",
+  "keywords": ["kafka", "schema-registry", "avro"],
+  "addons": ["heroku-kafka:alpha-dev"]
+}

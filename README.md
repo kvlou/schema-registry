@@ -11,6 +11,10 @@ retrieval for Kafka messages that are sent in the Avro format.
 Quickstart
 ----------
 
+Deploy with Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 The following assumes you have Kafka and an instance of the Schema Registry running using the default settings.
 
     # Register a new version of a schema under the subject "Kafka-key"

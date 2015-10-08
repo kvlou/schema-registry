@@ -71,6 +71,25 @@ if [ -z "$SCHEMA_REGISTRY_JVM_PERFORMANCE_OPTS" ]; then
   SCHEMA_REGISTRY_JVM_PERFORMANCE_OPTS="-server -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -Djava.awt.headless=true"
 fi
 
+# Config file
+if [ -z "$SCHEMA_REGISTRY_CONFIG_FILE" ]; then
+  SCHEMA_REGISTRY_CONFIG_FILE=$base_dir/config/schema-registry.properties
+fi
+
+# Listening port
+if [ -z "$PORT" ]; then
+  PORT=8081
+fi
+
+# Heroku Kafka
+if [ -n "$HEROKU_KAFKA_ZOOKEEPER_URL" ]; then
+  ADDRESSES=$(echo $HEROKU_KAFKA_ZOOKEEPER_URL|sed 's/zk\:\/\///g')
+  if [ -f "$SCHEMA_REGISTRY_CONFIG_FILE" ]; then
+    sed -i "s/^kafkastore\.connection\.url\=.*/kafkastore\.connection\.url\=$ADDRESSES/g; s/port\=.*/port=$PORT/g" $SCHEMA_REGISTRY_CONFIG_FILE
+  else
+    echo "--> Cannot locate schema-registry configuration file: $SCHEMA_REGISTRY_CONFIG_FILE"
+  fi
+fi
 
 while [ $# -gt 0 ]; do
   COMMAND=$1
